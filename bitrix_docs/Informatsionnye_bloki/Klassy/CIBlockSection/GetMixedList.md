@@ -1,0 +1,52 @@
+[Информационные блоки](/api_help/iblock/index.php)
+
+[Классы](/api_help/iblock/classes/index.php)
+
+[CIBlockSection](/api_help/iblock/classes/ciblocksection/index.php)
+
+GetMixedList (доступен с 5.1.0)
+
+GetMixedList
+============
+
+Включить вкладки
+
+Описание
+
+Параметры вызова
+
+Внимание! Метод публичный, но он разработан для внутренних задач и категорически не рекомендуется к использованию.
+
+### Описание
+
+```
+CIBlockResult
+CIBlockSection::GetMixedList(
+	array arOrder = Array("SORT"=>"ASC"),
+	array arFilter = Array(),
+	bool bIncCnt = false,
+	array arSelectedFields = false
+);Копировать
+```
+
+Возвращает список разделов и элементов, отсортированных в порядке *arOrder* по фильтру *arFilter*. Нестатический метод.
+
+#### Возвращаемое значение
+
+Возвращается объект [CIBlockResult](/api_help/iblock/classes/ciblockresult/index.php).
+
+#### Смотрите также
+
+* [CIBlockSection::GetList](/api_help/iblock/classes/ciblocksection/getlist.php)
+* [CIBlockElement::GetList](/api_help/iblock/classes/ciblockelement/getlist.php)
+
+### Параметры вызова
+
+| Параметр | Описание | С версии |
+| --- | --- | --- |
+| arOrder | Массив для сортировки, имеющий вид *by1*=>*order1*[, *by2*=>*order2* [, ..]], где  *by1, ...*  - поле сортировки, может принимать значения:    для элементов:  * **id** - ID элемента; * **sort** - индекс сортировки; * **timestamp\_x** - дата изменения; * **name** - название; * **active\_from** или date\_active\_from - начало периода действия элемента; * **active\_to** или date\_active\_to - окончание периода действия элемента; * **status** - код статуса элемента в документообороте; * **code** - символьный код элемента; * **iblock\_id** - числовой код информационного блока; * **modified\_by** - код последнего изменившего пользователя; * **active** - признак активности элемента; * *show\_counter* - количество показов элемента (учитывается методом [CIBlockElement](/api_help/iblock/classes/ciblockelement/index.php)::[CounterInc](/api_help/iblock/classes/ciblockelement/counterinc.php)); * **show\_counter\_start** - время первого показа элемента (учитывается методом [CIBlockElement](/api_help/iblock/classes/ciblockelement/index.php)::[CounterInc](/api_help/iblock/classes/ciblockelement/counterinc.php)); * **shows** - усредненное количество показов (количество показов / продолжительность показа); * **rand** - случайный порядок; * xml\_id или external\_id - внешний код; * tags - теги; * created - время создания; * created\_date - дата создания без учета времени; * cnt - количество элементов (только при заданной группировке); * **property\_<PROPERTY\_CODE>** - по значению свойства с числовым или символьным кодом *PROPERTY\_CODE* (например, PROPERTY\_123 или PROPERTY\_NEWS\_SOURCE); * **propertysort\_<PROPERTY\_CODE>** - по индексу сортировки варианта значения свойства. Только для свойств типа "Список" ; * **catalog\_<CATALOG\_FIELD>\_<PRICE\_TYPE>** - по полю CATALOG\_FIELD (может быть PRICE - цена или CURRENCY - валюта) из цены с типом *PRICE\_TYPE* (например, catalog\_PRICE\_1 или CATALOG\_CURRENCY\_3); * **CATALOG\_QUANTITY** - общее количество товара; * **CATALOG\_WEIGHT** - вес товара; * **CATALOG\_AVAILABLE** - признак доступности к покупке (Y|N). Товар считается недоступным, если его количество меньше либо равно нулю, включен количественный учет и запрещена покупка при нулевом количестве; * PROPERTY\_<PROPERTY\_CODE>.<FIELD> - по значению поля элемента указанного в качестве привязки. PROPERTY\_CODE - символьный код свойства типа привязка к элементам. FIELD может принимать значения:  + ID + TIMESTAMP\_X + MODIFIED\_BY + CREATED + CREATED\_DATE + CREATED\_BY + IBLOCK\_ID + ACTIVE + ACTIVE\_FROM + ACTIVE\_TO + SORT + NAME + SHOW\_COUNTER + SHOW\_COUNTER\_START + CODE + TAGS + XML\_ID + STATUS  * PROPERTY\_<PROPERTY\_CODE>.PROPERTY\_<PROPERTY\_CODE2> - по значению свойства элемента указанного в качестве привязки. PROPERTY\_CODE - символьный код свойства типа привязки к элементам. PROPERTY\_CODE2- код свойства связанных элементов. * **HAS\_PREVIEW\_PICTURE** и **HAS\_DETAIL\_PICTURE** - сортировка по наличию и отсутствию картинок.     для разделов:  * **id** - код группы; * **section** - код родительской группы; * **name** - название группы; * **code** - символьный код группы; * **active** - активности группы; * **left\_margin** - левая граница; * **depth\_level** - глубина вложенности (начинается с 1); * **sort** - индекс сортировки; * **created** - по времени создания группы; * **created\_by** - по идентификатору создателя группы; * **modified\_by** - по идентификатору пользователя изменившего группу; * **element\_cnt** - количество элементов в группе, работает только если **bIncCnt** = true; * **timestamp\_x** - по времени последнего изменения.  *order1, ...*  - порядок сортировки, может принимать значения:  * **asc** - по возрастанию; * **desc** - по убыванию.    Значение по умолчанию Array("SORT"=>"ASC") означает, что результат выборки будет отсортирован по возрастанию. Если задать пустой массив Array(), то результат отсортирован не будет. |  |
+| arFilter | Массив вида array("фильтруемое поле"=>"значение" [, ...]). *Фильтруемое поле* может принимать значения:    для элементов:  * **ID\_1**, **ID\_2** - по числовому коду ([Число](/api_help/iblock/filters/number.php)) от ID\_1 до ID\_2; * **ACTIVE** - фильтр по активности (Y|N); передача пустого значения (*"ACTIVE"=>""*) выводит все элементы без учета их состояния ([Строка](/api_help/iblock/filters/string_equal.php)); * **NAME** - по названию ([Маска](/api_help/iblock/filters/string.php)); * **CODE** - по символьному идентификатору ([Маска](/api_help/iblock/filters/string.php)); * **TAGS** - по тегам ([Маска](/api_help/iblock/filters/string.php)); * **EXTERNAL\_ID** - по внешнему коду ([Маска](/api_help/iblock/filters/string.php)); * **TIMESTAMP\_X\_1**, **TIMESTAMP\_X\_2** - по времени изменения ([Дата](/api_help/iblock/filters/date.php)) от TIMESTAMP\_X\_1 до TIMESTAMP\_X\_2; * **DATE\_CREATE\_1**, **DATE\_CREATE\_2** - по времени создания ([Дата](/api_help/iblock/filters/date.php)) от DATE\_CREATE\_1 до DATE\_CREATE\_2; * **CREATED\_USER\_ID** или **CREATED\_BY** - по коду пользователя, добавившего элемент ([Число](/api_help/iblock/filters/number.php)); * **DATE\_ACTIVE\_FROM\_1**, **DATE\_ACTIVE\_FROM\_2** - по дате начала активности ([Дата](/api_help/iblock/filters/date.php)) от DATE\_ACTIVE\_FROM\_1 до DATE\_ACTIVE\_FROM\_2. Формат даты должен соответствовать [формату даты](http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=35&LESSON_ID=1992), установленному на сайте.; * **DATE\_ACTIVE\_TO\_1**, **DATE\_ACTIVE\_TO\_2** - по дате окончания активности ([Дата](/api_help/iblock/filters/date.php)) от DATE\_ACTIVE\_TO\_1 до DATE\_ACTIVE\_TO\_2. Формат даты должен соответствовать [формату даты](http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=35&LESSON_ID=1992), установленному на сайте.; * **IBLOCK\_ID** - по коду информационного блока ([Число](/api_help/iblock/filters/number.php)); * **CATALOG\_AVAILABLE** - признак доступности к покупке (Y|N). Товар считается недоступным, если его количество меньше либо равно нулю, включен количественный учет и запрещена покупка при нулевом количестве; * **CATALOG\_CATALOG\_GROUP\_ID\_N** - по типу цен; * **CATALOG\_SHOP\_QUANTITY\_N** - фильтрация по диапазону количества в цене; * **CATALOG\_QUANTITY** - по общему количеству товара; * **CATALOG\_WEIGHT** - по весу товара; * **SHOW\_COUNTER** - по количеству показов ([Число](/api_help/iblock/filters/number.php)); * **SHOW\_COUNTER\_START** - по времени первого показа ([Дата](/api_help/iblock/filters/date.php)); * **WF\_COMMENTS** - по комментарию документооборота ([Маска](/api_help/iblock/filters/string.php)); * **WF\_STATUS\_ID** или WF\_STATUS - по коду статуса документооборота ([Число](/api_help/iblock/filters/number.php)); * **SHOW\_NEW** - если **SHOW\_HISTORY** не установлен или не равен Y и **SHOW\_NEW**=Y, то будут показываться ещё неопубликованные элементы вместе с опубликованными; * **PROPERTY\_<PROPERTY\_CODE****>** - фильтр по значениям свойств, где PROPERTY\_CODE - код свойства или символьный код. Для свойств типа "Список", "Число", "Привязка к элементам" и "Привязка к разделам" - [Число](/api_help/iblock/filters/number.php). Для прочих - [Маска](/api_help/iblock/filters/string.php); * **PROPERTY\_<****PROPERTY\_CODE>\_VALUE** - фильтр по значениям списка для свойств типа "список" ([Маска](/api_help/iblock/filters/string.php)), поиск будет осуществляться по строковому значению списка, а не по идентификатору; * **CATALOG\_<CATALOG\_FIELD>\_<PRICE\_TYPE>** - по полю *CATALOG\_FIELD* из цены типа *PRICE\_TYPE* (ID типа цены), где *CATALOG\_FIELD* может быть: PRICE - цена, CURRENCY - валюта. * PROPERTY\_<PROPERTY\_CODE>.<FIELD> - фильтр по значениям полей связанных элементов. , где PROPERTY\_CODE - ID или символьный код свойства привязки, а FIELD - поле указанного в привязке элемента.  для разделов:  * **IBLOCK\_ID** - по коду родительского информационного блока; * **NAME** - по названию (можно искать по шаблону [%\_]); * **CODE** - по символьному коду (по шаблону [%\_]); * **EXTERNAL\_ID** - по внешнему коду (по шаблону [%\_]); * **SECTION\_ID** - по коду раздела-родителя; * **ID\_1**, **ID\_2** - по кодам разделов от ID\_1 до ID\_2; * **TIMESTAMP\_X\_1**, **TIMESTAMP\_X\_2** - по времени последнего изменения от TIMESTAMP\_X\_1 до TIMESTAMP\_X\_2; * **DATE\_CREATE\_1**, **DATE\_CREATE\_2** - по времени создания от DATE\_CREATE\_1 до DATE\_CREATE\_2; * **MODIFIED\_BY** - по коду пользователя изменившему раздел; * **CREATED\_BY** - по создателю;    Необязательное. По умолчанию записи не фильтруются. |  |
+| bIncCnt | Возвращать ли поле *ELEMENT\_CNT* - количество элементов в разделе. При этом arFilter дополнительно обрабатывает следующие фильтруемые поля:  * **ELEMENT\_SUBSECTIONS** - подсчитывать элементы вложенных подразделов или нет (Y|N). По умолчанию Y; * **CNT\_ALL** - подсчитывать еще неопубликованные элементы (Y|N). По умолчанию N. Актуально при установленном модуле документооборота; * **CNT\_ACTIVE** - при подсчете учитывать активность элементов (Y|N). По умолчанию N. Учитывается флаг активности элемента ACTIVE и даты начала и окончания активности.  Необязательный параметр, по умолчанию равен false. |  |
+| arSelectedFields | Массив для выборки. Задается только для элементов. | 5.1.5 |
+
+Новинки документации в соцсетях:
